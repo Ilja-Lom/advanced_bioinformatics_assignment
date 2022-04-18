@@ -1,3 +1,3 @@
-# test-bioinformatics
+# Advanced Bioinformatics Assignment
 
-This is a test document!
+This repository contains the files as part of the assignment for Advanced Bioinformatics.
