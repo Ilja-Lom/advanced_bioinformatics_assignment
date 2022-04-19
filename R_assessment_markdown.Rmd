@@ -1,0 +1,169 @@
+---
+title: "Advanced Bioinformatics 2022 assessment"
+author: '1810106'
+date: "04/04/2022"
+output:
+---
+
+# TASK 3.1
+```{r}
+# creating a vector in the provided range of numbers
+values = c(5:55)
+# summating the values
+sum_values = sum(values)
+# returning the summed value
+print(sum_values)
+```
+
+# TASK 3.2
+```{r}
+# defining a function that sums the input vector
+sumfun = function(n) {
+  values = c(5:n)
+  sum_values = sum(values)
+  return(sum_values)
+}
+
+# testing function
+print(sumfun(10)) # returns 45
+print(sumfun(20)) # returns 200
+print(sumfun(100)) # returns 5040
+```
+
+# TASK 3.3
+```{r}
+# for loop to generate Fibonacci's sequence
+
+# setting starting values
+values = list(0,1)
+
+# calculating Fibonacci values
+for (i in c(2:12)) {
+  # Fibonacci value = most recent value + previous value
+  fib = values[[i]] + values[[i-1]] # must use double square brackets to return object
+  # appending Fibonacci value to values list
+  values = append(values, fib)
+}
+# returning the first 12 Fibonacci values
+print(values)
+```
+
+# TASK 3.4
+```{r}
+# importing ggplot
+library(ggplot2)
+
+# importing mtcars dataset
+data(mtcars)
+
+# viewing data
+View(mtcars)
+
+# plotting the boxplot using ggplot
+boxplot <- ggplot(mtcars, aes(x=gear, y=mpg, fill=factor(gear))) +
+  geom_boxplot()
+## note: ggplot thinks gears are a continuous variable. Use 'factor' to indicate
+## that it is a categorical variable.
+
+# displaying boxplot
+boxplot
+```
+
+# TASK 3.5
+```{r}
+# importing the 'cars' dataset
+data(cars)
+
+# viewing the data
+View(cars)
+
+# fitting the linear model
+fit = lm(speed ~ dist, data = cars)
+
+# returning the summary of the linear model
+summary(fit)
+
+# information about the cars dataset
+?cars
+```
+
+PARAMETERS --------------------------------
+gradient (slope) = 0.17
+intercept = 8.28
+standard error for intercept = 0.87438
+standard error for distance = 0.01749
+units of speed = mph
+units of stopping distance = feet
+
+# TASK 3.6
+```{r}
+# plotting the linear model
+lm_plot <- ggplot(cars, aes(x=dist, y=speed)) +
+  geom_point() +
+  geom_smooth(method='lm')
+
+# displaying the plot
+lm_plot
+```
+
+# TASK 3.7
+```{r}
+# importing ggplot
+library(ggplot2)
+
+# fitting the linear model
+lm_fit = lm(dist ~ I(speed^2), data = cars)
+# printing the linear fit
+lm_fit
+
+# plotting with ggplot the thinking points and relationship
+lm_plot <- ggplot(cars, aes(x=I(speed^2), y=dist)) +
+  geom_point() +
+  geom_smooth(method='lm')
+
+# displaying plot
+lm_plot
+
+# list to store each thinking time
+thinking_time_list = list()
+
+# iterate over each row in the cars dataset
+## calculate the corresponding thinking time
+for (row in 1:nrow(cars)) {
+  
+  # row varaiables
+  speed <- cars[row, "speed"]
+  distance <- cars[row, "dist"]
+  
+  # v = d/t
+  ## therefore, t=d/v
+  ## d is 8.86, as indicated from the y-intercept from the linear model
+  thinking_time = 8.86 / speed
+  # appending thinking time to list
+  thinking_time_list <- c(thinking_time_list, thinking_time)
+}
+
+# converting list to vector
+thinking_time_vector = unlist(thinking_time_list)
+
+# adding vector to dataframe
+cars$thinking_time <- thinking_time_vector
+
+# view the updated dataframe
+View(cars)
+
+```
+
+The fitted linear model indicates that as speed increases, the stopping distance does so as well. The y-intercept of the fit is 8.86, and the gradient is 0.129.
+
+These values were then used to calculate the thinking time.
+
+I believe the output thinking times are reasonable approximations; no negative values are seen,
+and assuming the results are in seconds, they indicate a fairly normal reaction time.
+
+However, at slower speeds the thinking time appears to be exceptionally high, such as
+a value of 2. A possible explanation for this is that the breaking distance is so short,
+it isn't represented very well by the linear model; in other words, the brakes of the car
+have an intrinsically different performance at faster speeds compared to slower speeds.
+
+End.
